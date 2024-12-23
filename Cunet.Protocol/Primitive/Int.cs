@@ -20,4 +20,12 @@ public readonly struct Int(int value) : IProtocolElement<Int> {
         consumed = 4;
         return new Int(value);
     }
+
+    public static implicit operator Int(int value) {
+        return new Int(value);
+    }
+
+    public static implicit operator int(Int value) {
+        return value.Value;
+    }
 }

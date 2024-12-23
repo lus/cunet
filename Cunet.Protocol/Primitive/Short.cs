@@ -20,4 +20,12 @@ public readonly struct Short(short value) : IProtocolElement<Short> {
         consumed = 2;
         return new Short(value);
     }
+
+    public static implicit operator Short(short value) {
+        return new Short(value);
+    }
+
+    public static implicit operator short(Short value) {
+        return value.Value;
+    }
 }

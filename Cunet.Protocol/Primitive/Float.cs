@@ -20,4 +20,12 @@ public readonly struct Float(float value) : IProtocolElement<Float> {
         consumed = 4;
         return new Float(value);
     }
+
+    public static implicit operator Float(float value) {
+        return new Float(value);
+    }
+
+    public static implicit operator float(Float value) {
+        return value.Value;
+    }
 }

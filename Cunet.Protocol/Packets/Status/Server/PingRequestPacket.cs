@@ -13,18 +13,18 @@ public readonly struct PingRequestPacket : IServerBoundPacket<PingRequestPacket>
     ///     An arbitrary payload. The server will include this payload in its response. The Notchian client uses the current
     ///     UNIX timestamp (milliseconds).
     /// </summary>
-    public required long Payload { get; init; }
+    public required Long Payload { get; init; }
 
     public int CalculateSize() {
-        return new Long(Payload).CalculateSize();
+        return Payload.CalculateSize();
     }
 
     public int Write(Span<byte> output) {
-        return new Long(Payload).Write(output);
+        return Payload.Write(output);
     }
 
     public static PingRequestPacket Read(ReadOnlySpan<byte> input, out int consumed) {
-        long payload = Long.Read(input, out consumed).Value;
+        Long payload = Long.Read(input, out consumed);
         return new PingRequestPacket {
             Payload = payload,
         };

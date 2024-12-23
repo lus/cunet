@@ -65,4 +65,12 @@ public readonly struct VarLong(long value) : IProtocolElement<VarLong> {
         consumed = offset;
         return new VarLong(readValue);
     }
+
+    public static implicit operator VarLong(long value) {
+        return new VarLong(value);
+    }
+
+    public static implicit operator long(VarLong value) {
+        return value.Value;
+    }
 }

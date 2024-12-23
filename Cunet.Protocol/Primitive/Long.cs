@@ -20,4 +20,12 @@ public readonly struct Long(long value) : IProtocolElement<Long> {
         consumed = 8;
         return new Long(value);
     }
+
+    public static implicit operator Long(long value) {
+        return new Long(value);
+    }
+
+    public static implicit operator long(Long value) {
+        return value.Value;
+    }
 }

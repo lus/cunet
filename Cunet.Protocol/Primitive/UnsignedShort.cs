@@ -20,4 +20,12 @@ public readonly struct UnsignedShort(ushort value) : IProtocolElement<UnsignedSh
         consumed = 2;
         return new UnsignedShort(value);
     }
+
+    public static implicit operator UnsignedShort(ushort value) {
+        return new UnsignedShort(value);
+    }
+
+    public static implicit operator ushort(UnsignedShort value) {
+        return value.Value;
+    }
 }

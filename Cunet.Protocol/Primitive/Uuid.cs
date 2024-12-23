@@ -20,4 +20,12 @@ public readonly struct Uuid(Guid value) : IProtocolElement<Uuid> {
         consumed = 16;
         return new Uuid(value);
     }
+
+    public static implicit operator Uuid(Guid value) {
+        return new Uuid(value);
+    }
+
+    public static implicit operator Guid(Uuid value) {
+        return value.Value;
+    }
 }

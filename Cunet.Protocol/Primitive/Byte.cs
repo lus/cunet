@@ -19,4 +19,12 @@ public readonly struct Byte(sbyte value) : IProtocolElement<Byte> {
         consumed = 1;
         return new Byte((sbyte)value);
     }
+
+    public static implicit operator Byte(sbyte value) {
+        return new Byte(value);
+    }
+
+    public static implicit operator sbyte(Byte value) {
+        return value.Value;
+    }
 }

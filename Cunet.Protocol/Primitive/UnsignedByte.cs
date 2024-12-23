@@ -19,4 +19,12 @@ public readonly struct UnsignedByte(byte value) : IProtocolElement<UnsignedByte>
         consumed = 1;
         return new UnsignedByte(value);
     }
+
+    public static implicit operator UnsignedByte(byte value) {
+        return new UnsignedByte(value);
+    }
+
+    public static implicit operator byte(UnsignedByte value) {
+        return value.Value;
+    }
 }

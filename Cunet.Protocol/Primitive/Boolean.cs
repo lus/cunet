@@ -24,4 +24,12 @@ public readonly struct Boolean(bool value) : IProtocolElement<Boolean> {
             _ => throw new ReadException($"unexpected data (got {raw})"),
         };
     }
+
+    public static implicit operator Boolean(bool value) {
+        return new Boolean(value);
+    }
+
+    public static implicit operator bool(Boolean value) {
+        return value.Value;
+    }
 }

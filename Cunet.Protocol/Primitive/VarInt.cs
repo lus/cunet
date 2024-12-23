@@ -114,4 +114,12 @@ public readonly struct VarInt(int value) : IProtocolElement<VarInt> {
         consumed = (int)reader.Consumed;
         return true;
     }
+
+    public static implicit operator VarInt(int value) {
+        return new VarInt(value);
+    }
+
+    public static implicit operator int(VarInt value) {
+        return value.Value;
+    }
 }

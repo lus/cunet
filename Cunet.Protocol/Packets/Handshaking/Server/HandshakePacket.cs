@@ -13,17 +13,17 @@ public readonly struct HandshakePacket : IServerBoundPacket<HandshakePacket> {
     /// <summary>
     ///     The protocol version of the client opening the connection.
     /// </summary>
-    public required int ProtocolVersion { get; init; }
+    public required VarInt ProtocolVersion { get; init; }
 
     /// <summary>
     ///     The address the client used to connect to the server.
     /// </summary>
-    public required string ServerAddress { get; init; }
+    public required String ServerAddress { get; init; }
 
     /// <summary>
     ///     The port the client used to connect to the server.
     /// </summary>
-    public required ushort ServerPort { get; init; }
+    public required UnsignedShort ServerPort { get; init; }
 
     /// <summary>
     ///     The state the client wants to switch to.
@@ -31,17 +31,17 @@ public readonly struct HandshakePacket : IServerBoundPacket<HandshakePacket> {
     public required NextState State { get; init; }
 
     public int CalculateSize() {
-        return new VarInt(ProtocolVersion).CalculateSize() +
-               new String(ServerAddress).CalculateSize() +
-               new UnsignedShort(ServerPort).CalculateSize() +
+        return ProtocolVersion.CalculateSize() +
+               ServerAddress.CalculateSize() +
+               ServerPort.CalculateSize() +
                new VarInt((int)State).CalculateSize();
     }
 
     public int Write(Span<byte> output) {
         ProtocolWriter writer = new(output);
-        writer.Write(new VarInt(ProtocolVersion))
-            .Write(new String(ServerAddress))
-            .Write(new UnsignedShort(ServerPort))
+        writer.Write(ProtocolVersion)
+            .Write(ServerAddress)
+            .Write(ServerPort)
             .Write(new VarInt((int)State));
         return writer.TotalWritten;
     }
@@ -49,9 +49,9 @@ public readonly struct HandshakePacket : IServerBoundPacket<HandshakePacket> {
     public static HandshakePacket Read(ReadOnlySpan<byte> input, out int consumed) {
         ProtocolReader reader = new(input);
 
-        int protocolVersion = reader.Read<VarInt>().Value;
-        string serverAddress = reader.Read<String>().Value;
-        ushort serverPort = reader.Read<UnsignedShort>().Value;
+        VarInt protocolVersion = reader.Read<VarInt>();
+        String serverAddress = reader.Read<String>();
+        UnsignedShort serverPort = reader.Read<UnsignedShort>();
         int state = reader.Read<VarInt>().Value;
         if (state is < 1 or > 3) {
             throw new ReadException($"got invalid next state after handshake ({state})");

@@ -20,4 +20,12 @@ public readonly struct Double(double value) : IProtocolElement<Double> {
         consumed = 8;
         return new Double(value);
     }
+
+    public static implicit operator Double(double value) {
+        return new Double(value);
+    }
+
+    public static implicit operator double(Double value) {
+        return value.Value;
+    }
 }

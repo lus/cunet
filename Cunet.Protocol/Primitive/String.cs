@@ -24,4 +24,12 @@ public readonly struct String(string value) : IProtocolElement<String> {
         consumed = consumedBySize + size;
         return new String(value);
     }
+
+    public static implicit operator String(string value) {
+        return new String(value);
+    }
+
+    public static implicit operator string(String value) {
+        return value.Value;
+    }
 }
