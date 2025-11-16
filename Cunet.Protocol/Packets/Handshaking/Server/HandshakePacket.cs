@@ -42,7 +42,7 @@ public readonly struct HandshakePacket : IServerBoundPacket<HandshakePacket> {
         writer.Write(ProtocolVersion)
             .Write(ServerAddress)
             .Write(ServerPort)
-            .Write(new VarInt((int)State));
+            .Write<VarInt>((int)State);
         return writer.TotalWritten;
     }
 

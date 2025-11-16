@@ -18,6 +18,7 @@ public readonly struct Float(float value) : IProtocolElement<Float> {
     public static Float Read(ReadOnlySpan<byte> input, out int consumed) {
         float value = BinaryPrimitives.ReadSingleBigEndian(input);
         consumed = 4;
+
         return new Float(value);
     }
 

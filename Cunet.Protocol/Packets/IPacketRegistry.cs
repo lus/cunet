@@ -16,6 +16,11 @@ public interface IPacketRegistry {
     public delegate IPacket PacketSupplier(ReadOnlySpan<byte> input, out int consumed);
 
     /// <summary>
+    ///     A single default instance of the <see cref="DefaultPacketRegistry" />.
+    /// </summary>
+    public static readonly IPacketRegistry Default = new DefaultPacketRegistry();
+
+    /// <summary>
     ///     Registers a server-bound packet.
     /// </summary>
     /// <param name="state">The session state the packet belongs to.</param>

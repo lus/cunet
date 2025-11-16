@@ -2,6 +2,7 @@ using Cunet.Protocol.Packets.Handshaking.Server;
 using Cunet.Protocol.Packets.Status.Client;
 using Cunet.Protocol.Packets.Status.Server;
 using Cunet.Protocol.Session;
+using Cunet.Protocol.Util;
 
 namespace Cunet.Protocol.Packets;
 
@@ -28,21 +29,13 @@ public class DefaultPacketRegistry : IPacketRegistry {
         int id,
         IPacketRegistry.PacketSupplier supplier
     ) where TPacket : IServerBoundPacket {
-        // Register the packet ID
-        Dictionary<Type, int>? idMap = _serverBoundPacketIds.GetValueOrDefault(state);
-        if (idMap == null) {
-            idMap = new Dictionary<Type, int>();
-            _serverBoundPacketIds[state] = idMap;
-        }
+        Dictionary<Type, int> idMap = _serverBoundPacketIds.GetOrSet(state, _ => new Dictionary<Type, int>());
         idMap[typeof(TPacket)] = id;
 
-        // Register the packet supplier
-        Dictionary<int, IPacketRegistry.PacketSupplier>? supplierMap =
-            _serverBoundPacketSuppliers.GetValueOrDefault(state);
-        if (supplierMap == null) {
-            supplierMap = new Dictionary<int, IPacketRegistry.PacketSupplier>();
-            _serverBoundPacketSuppliers[state] = supplierMap;
-        }
+        Dictionary<int, IPacketRegistry.PacketSupplier> supplierMap = _serverBoundPacketSuppliers.GetOrSet(
+            state,
+            _ => new Dictionary<int, IPacketRegistry.PacketSupplier>()
+        );
         supplierMap[id] = (ReadOnlySpan<byte> input, out int consumed) => supplier(input, out consumed);
     }
 
@@ -60,21 +53,13 @@ public class DefaultPacketRegistry : IPacketRegistry {
         int id,
         IPacketRegistry.PacketSupplier supplier
     ) where TPacket : IClientBoundPacket {
-        // Register the packet ID
-        Dictionary<Type, int>? idMap = _clientBoundPacketIds.GetValueOrDefault(state);
-        if (idMap == null) {
-            idMap = new Dictionary<Type, int>();
-            _clientBoundPacketIds[state] = idMap;
-        }
+        Dictionary<Type, int> idMap = _clientBoundPacketIds.GetOrSet(state, _ => new Dictionary<Type, int>());
         idMap[typeof(TPacket)] = id;
 
-        // Register the packet supplier
-        Dictionary<int, IPacketRegistry.PacketSupplier>? supplierMap =
-            _clientBoundPacketSuppliers.GetValueOrDefault(state);
-        if (supplierMap == null) {
-            supplierMap = new Dictionary<int, IPacketRegistry.PacketSupplier>();
-            _clientBoundPacketSuppliers[state] = supplierMap;
-        }
+        Dictionary<int, IPacketRegistry.PacketSupplier> supplierMap = _clientBoundPacketSuppliers.GetOrSet(
+            state,
+            _ => new Dictionary<int, IPacketRegistry.PacketSupplier>()
+        );
         supplierMap[id] = (ReadOnlySpan<byte> input, out int consumed) => supplier(input, out consumed);
     }
 

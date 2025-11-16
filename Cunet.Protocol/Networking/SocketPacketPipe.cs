@@ -10,6 +10,8 @@ using Pipelines.Sockets.Unofficial;
 
 namespace Cunet.Protocol.Networking;
 
+// TODO: Cancellation token support
+
 /// <summary>
 ///     Represents a <see cref="IPacketPipe" /> implemented using a TCP <see cref="Socket" /> and
 ///     <see cref="SocketConnection" />.
